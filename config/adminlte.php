@@ -229,6 +229,7 @@ return [
             'search' => true,
             'topnav' => true,
         ],
+        // NEW MENU
         [
             'text'        => 'pages',
             'url'         => 'admin/pages',
@@ -236,6 +237,15 @@ return [
             'label'       => 4,
             'label_color' => 'success',
         ],
+
+        ['header' => 'Menu'],
+        [
+            'text' => 'Buku',
+            'url' => 'admin\books',
+            'icon' => 'fas fa-fw fa-book',
+            'can' => 'isAdmin',
+        ],
+        
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

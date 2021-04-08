@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\facades\Storage;
 
 use App\Models\Book;
 
@@ -29,7 +29,7 @@ class AdminController extends Controller
         return view('book', compact('user', 'books'));
     }
 
-    public function submit_books(Request $req)
+    public function submit_book(Request $req)
     {
         $book = new Book; //objek dari Book
 
@@ -39,13 +39,14 @@ class AdminController extends Controller
         $book->tahun = $req->get('tahun');
         $book->penerbit = $req->get('penerbit');
 
-        if($req->hasFile('Cover')) //Apakah akan menyertakan cover??
+        if($req->hasFile('cover')) //Apakah akan menyertakan cover??
         {
             $extension = $req->file('cover')->extension(); //Menyimpan ekstensi dari file cover
 
             $filename = 'cover_buku_'.time().'.'.$extension; //Nama filenya
 
-            $req->file('cover')->storeAs( //Menyimpan file kedalam direktori
+            $req->file('cover')->storeAs( 
+                //Menyimpan file kedalam direktori
                 'public/cover_buku', $filename
             ); //storage/app/public/cover_buku
 

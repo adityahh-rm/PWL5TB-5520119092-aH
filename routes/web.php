@@ -31,4 +31,7 @@ Route::get('admin/home', [App\Http\Controllers\AdminController::class, 'index'])
 Route::get('admin/books', [App\Http\Controllers\AdminController::class, 'books'])->name('admin.books')->middleware('is_admin');
 
 //Admin - Pengelolaan Buku
-Route::post('admin/books', [App\Http\Controlles\AdminController::class, 'submit_books'])->name('admin.book.submit')->middleware('is_admin');
+Route::post('admin/books', [App\Http\Controllers\AdminController::class, 'submit_book'])->name('admin.book.submit')->middleware('is_admin');
+
+// Menampilkan halaman + proses yg melibatkan data (Modifikasi Data)
+Route::patch('admin/books/update', [App\Http\Controller\AdminController::class, 'update_books'])->name('admin.book.update')->middleware('is_admin');

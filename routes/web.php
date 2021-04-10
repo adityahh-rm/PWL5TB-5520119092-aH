@@ -35,3 +35,5 @@ Route::post('admin/books', [App\Http\Controllers\AdminController::class, 'submit
 
 // Menampilkan halaman + proses yg melibatkan data (Modifikasi Data)
 Route::patch('admin/books/update', [App\Http\Controller\AdminController::class, 'update_books'])->name('admin.book.update')->middleware('is_admin');
+
+Route::get('admin/ajaxadmin/databuku/{id}', [App\Http\Controllers\AdminController::class, 'getDataBuku']);

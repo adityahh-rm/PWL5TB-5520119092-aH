@@ -50,6 +50,8 @@ class AdminController extends Controller
                 'public/cover_buku', $filename
             ); //storage/app/public/cover_buku
 
+            Storage::delete('public/cover_buku/'.$req->get('old_cover'));
+
             $book->cover = $filename; //menyimpan nama file pada kolom cover
         }
 
@@ -61,5 +63,13 @@ class AdminController extends Controller
         );
 
         return redirect()->route('admin.books')->with($notification); //Hanya sekali proses saja
+    }
+
+    public function getDataBuku($id)
+    {
+        $buku = Book::find($id); //Berdasarkan primary key
+        //Data dari model Book
+
+        return response()->json($buku);
     }
 }

@@ -45,14 +45,18 @@
                                             [ Gambar tidak Tersedia ]
                                         @endif
                                     </td> 
-                                    <!-- Modifikasi Data -->
+
+                                    <!-- Button - Modifikasi Data -->
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <button type="button" id="btn-edit-buku" class="btn btn-success" 
                                                 data-toggle="modal" data-target="#editBukuModal" data-id="{{ $book->id }}">
                                                 Edit
                                             </button>
-                                            <button type="button" id="btn-delete-buku" class="btn btn-danger">
+                                            <!-- Deleting button for modal -->
+                                            <button type="button" id="btn-delete-buku" class="btn btn-danger" data-toggle="modal" 
+                                                data-target="#deleteBukuModal" data-id="{{ $book->id }}" 
+                                                data-cover="{{ $book->cover }}">
                                                 Delete
                                             </button>
                                         </div>
@@ -67,9 +71,10 @@
     </div>
 </div>
 
+<!-- M O D A L -->
 <!-- Proses Input Data x -->
 <div  class="modal fade" id="tambahBukuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog"> <!-- exampleModalLabel -->
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="tambahBukuModal">
@@ -114,7 +119,7 @@
 
 <!-- Update/Edit Data -->
 <div class="modal fade" id="editBukuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg"> <!-- exampleModalLabel -->
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editBukuModal">Update Data X</h5>
@@ -167,11 +172,46 @@
         </div>
     </div>
 </div>
+
+<!-- Deleting Data -->
+<div class="modal fade" id="deleteBukuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog"> <!-- exampleModalLabel-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteBukuModal">
+                    Deleting Data
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you Sure you want to Delete it??
+                <form method="post" action="{{ route('admin.book.delete') }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('DELETE')
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="id" id="delete-id"/>
+                <input type="hidden" name="old_cover" id="delete-old-cover"/>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-danger">
+                    Delete
+                </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('js')
     <script>
         $(function(){
+            // JS UPDATING X
             $(document).on('click', '#btn-edit-buku', function(){
                 let id = $(this).data('id');
 
@@ -187,11 +227,11 @@
                         $('#edit-penulis').val(res.penulis);
                         $('#edit-tahun').val(res.tahun);
                         $('#edit-id').val(res.id);
-                        $('#edit-cover').val(res.cover);
+                        $('#edit-old-cover').val(res.cover);
 
                         if(res.cover !== null){
                             $('#image-area').append( //reset image cover
-                                "<img src='"+baseurl+"/storage/cover_buku/"+res.cover+"' width='200-x'/>"
+                                "<img src='"+baseurl+"/storage/cover_buku/"+res.cover+"' width='200px'/>"
                             );
                         } else {
                             $('#image-area').append('[Gambar Tidak Tersedia]');
@@ -199,6 +239,16 @@
                     },
                 });
             });
+
+             // JS DELETING X
+            $(document).on('click', '#btn-delete-buku', function(){
+                let id = $(this).data('id');
+                let cover = $(this).data('cover');
+
+                $('#delete-id').val(id);
+                $('#delete-old-cover').val(cover);
+            });
+            
         });
     </script>
 @stop

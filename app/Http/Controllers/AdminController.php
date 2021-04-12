@@ -8,6 +8,8 @@ use Illuminate\Support\facades\Storage;
 
 use App\Models\Book;
 
+use PDF;
+
 class AdminController extends Controller
 {
     public function __construct()
@@ -40,7 +42,7 @@ class AdminController extends Controller
         $book->tahun = $req->get('tahun');
         $book->penerbit = $req->get('penerbit');
 
-        if($req->hasFile('cover')) //Apakah akan menyertakan cover??
+        if($req->hasFile('cover')) //Apakah punya cover??
         {
             $extension = $req->file('cover')->extension(); //Menyimpan ekstensi dari file cover
 
@@ -69,7 +71,6 @@ class AdminController extends Controller
     {
         $buku = Book::find($id); //Berdasarkan primary key
         //Data dari model Book
-
         return response()->json($buku);
     }
 
@@ -86,13 +87,13 @@ class AdminController extends Controller
         if($req->hasFile('cover')){
             $extension = $req->file('cover')->extension();
 
-            $filename = 'cover_buku'.time().'.'.$extension;
+            $filename = 'cover_buku_'.time().'.'.$extension;
 
             $req->file('cover')->storeAs(
                 'public/cover_buku', $filename
             );
 
-            Storage::delete('public/cover_buku'.$req->get('old_cover')); //Menghapus cover sebelumnya
+            Storage::delete('public/cover_buku/'.$req->get('old_cover')); //Menghapus cover sebelumnya
 
             $book->cover = $filename;
         }
@@ -122,5 +123,13 @@ class AdminController extends Controller
         );
 
         return redirect()->route('admin.books')->with($notification);
+    }
+
+    public function print_books(){
+        $books = Book::all();
+
+        $pdf = PDF::loadview('print_books', ['books' => $books]);
+
+        return $pdf->download('data_buku.pdf');
     }
 }

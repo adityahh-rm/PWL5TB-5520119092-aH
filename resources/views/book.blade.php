@@ -17,6 +17,11 @@
                         <i class="fa fa-plus"></i>
                         Tambah Data
                     </button>
+                    <a href="{{ route('admin.print.books') }}" target="_blank" class="btn btn-secondary">
+                        <i class="fa fa-print"></i>
+                        Cetak PDF
+                    </a>
+                    <hr/>
                     <table id="table-data" class="table table-borderer">
                         <thead>
                             <tr>
@@ -160,7 +165,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+            </div>
             <div class="modal-footer">
                 <!-- hidden --]> memerlukan id untuk mengubah data-nya -->
                 <input type="hidden" name="id" id="edit-id"/>
@@ -248,7 +253,7 @@
                 $('#delete-id').val(id);
                 $('#delete-old-cover').val(cover);
             });
-            
         });
+
     </script>
 @stop

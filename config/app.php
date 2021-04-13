@@ -177,6 +177,8 @@ return [
 
         //Penambahan package DomPDF
         Barryvdh\DomPDF\ServiceProvider::class,
+        //Penambahan package excel
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -232,7 +234,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         //Menambahkan alias, agar dapat mengakses pdf nya.
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facades::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

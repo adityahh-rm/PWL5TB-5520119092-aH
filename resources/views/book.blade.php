@@ -17,10 +17,19 @@
                         <i class="fa fa-plus"></i>
                         Tambah Data
                     </button>
+                    <!-- Button Print PDF -->
                     <a href="{{ route('admin.print.books') }}" target="_blank" class="btn btn-secondary">
                         <i class="fa fa-print"></i>
                         Cetak PDF
                     </a>
+                    <div class="btn-group" roles="group" aria-label="Basic Example">
+                        <a href="{{ route('admin.book.export') }}" class="btn btn-info" target="_blank">
+                            Export
+                        </a>
+                        <a href="" class="btn btn-warning">
+                            Import
+                        </a>
+                    </div>
                     <hr/>
                     <table id="table-data" class="table table-borderer">
                         <thead>
@@ -127,7 +136,7 @@
     <div class="modal-dialog modal-lg"> <!-- exampleModalLabel -->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editBukuModal">Update Data X</h5>
+                <h5 class="modal-title" id="editBukuModal">Update Data</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -35,11 +35,12 @@ Route::post('admin/books', [App\Http\Controllers\AdminController::class, 'submit
 
 // Menampilkan halaman + proses yg melibatkan data (Modifikasi Data)
 Route::patch('admin/books/update', [App\Http\Controllers\AdminController::class, 'update_book'])->name('admin.book.update')->middleware('is_admin');
-
 // Ajax akan mengakses fungsi getDataBuku. Data berhasil maka dapat terInput pada id.
-Route::get('admin/ajaxadmin/databuku/{id}', [App\Http\Controllers\AdminController::class, 'getDataBuku']);
+Route::get('admin/ajaxadmin/dataBuku/{id}', [App\Http\Controllers\AdminController::class, 'getDataBuku']);
 
 Route::delete('admin/books/delete', [App\Http\Controllers\AdminController::class, 'delete_book'])->name('admin.book.delete')->middleware('is_admin');
 
 // Mencetak PDF
 Route::get('admin/print_books', [App\Http\Controllers\AdminController::class, 'print_books'])->name('admin.print.books')->middleware('is_admin');
+// Mencetak Excel
+Route::get('admin/books/export', [App\Http\Controllers\AdminController::class, 'export'])->name('admin.book.export')->middleware('is_admin');

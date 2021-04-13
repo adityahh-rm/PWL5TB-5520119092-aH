@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\facades\Storage;
 
 use App\Models\Book;
-
 use PDF;
+
+use App\Exports\BooksExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -125,11 +127,19 @@ class AdminController extends Controller
         return redirect()->route('admin.books')->with($notification);
     }
 
-    public function print_books(){
+    public function print_books()
+    {
         $books = Book::all();
 
         $pdf = PDF::loadview('print_books', ['books' => $books]);
 
         return $pdf->download('data_buku.pdf');
+    }
+
+    public function export()
+    {
+        //class Excel -- function download
+        return Excel::download(new BooksExport, 'books.xlsx');
+                            // Memanggil file Export, nama file unduhan
     }
 }

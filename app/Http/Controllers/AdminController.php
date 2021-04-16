@@ -10,6 +10,7 @@ use App\Models\Book;
 use PDF;
 
 use App\Exports\BooksExport;
+use App\Exports\BooksImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
@@ -136,10 +137,24 @@ class AdminController extends Controller
         return $pdf->download('data_buku.pdf');
     }
 
+    //Export Buku
     public function export()
     {
         //class Excel -- function download
         return Excel::download(new BooksExport, 'books.xlsx');
                             // Memanggil file Export, nama file unduhan
+    }
+
+    //Import Buku
+    public function import(Request $req)
+    {
+        Excel::import(new BooksImport, $req->file('file'));
+
+        $notification = array(
+            'message' => 'Import Data Berhasil Dilakukan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.books')->with($notification);
     }
 }

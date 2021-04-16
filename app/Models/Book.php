@@ -9,6 +9,14 @@ class Book extends Model
 {
     use HasFactory;
 
+    //Proses Import File
+    protected $fillable =[
+        'judul',
+        'penulis',
+        'tahun',
+        'penerbit'
+    ];
+
     public static function getDataBooks()
     {
         $books = Book::all();

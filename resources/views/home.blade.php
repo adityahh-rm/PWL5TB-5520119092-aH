@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
                 <div class="card-body">
-                    @if ($user->roles_id == 1)
+                    @if ($user->roles_id == 1) 
                         <p class="mb-0">Anda login sebagai Admin</p>
                     @else
                         <p class="mb-0">Anda login sebagai User</p>

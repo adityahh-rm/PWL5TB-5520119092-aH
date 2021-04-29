@@ -14,19 +14,19 @@ class BooksExport implements FromArray, WithHeadings, ShouldAutoSize
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function array(): array
+    public function array():array
     {
         return Book::getDataBooks();
     }
 
-    public function headings(): array
+    public function headings():array
     {
         return [
             'No',
             'Judul',
             'Penulis',
             'Tahun',
-            'Penerbit'
+            'Penerbit',
         ];
     }
 }

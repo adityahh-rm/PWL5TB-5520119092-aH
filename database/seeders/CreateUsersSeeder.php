@@ -17,16 +17,16 @@ class CreateUsersSeeder extends Seeder
     {
         $user = [
             [
-                'name' => "isUser",
-                'username' => 'User',
+                'name' => "User 1",
+                'username' => 'isUser',
                 'email' => "user@mail.com",
                 'password' => Hash::make(123456),
                 'photo' => 'user.jpg',
                 'roles_id' => 2
             ],
             [
-                'name' => "isAdmin",
-                'username' => 'Admin',
+                'name' => "Aditya Hermawan",
+                'username' => 'isAdmin',
                 'email' => "admin@mail.com",
                 'password' => Hash::make(123456),
                 'photo' => 'admin.jpg',

@@ -236,7 +236,6 @@ return [
         //Menambahkan alias, agar dapat mengakses pdf nya.
         'PDF' => Barryvdh\DomPDF\Facades::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-
     ],
 
 ];

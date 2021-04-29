@@ -224,19 +224,14 @@ return [
     */
 
     'menu' => [
-        [
-            'text' => 'search',
-            'search' => true,
-            'topnav' => true,
-        ],
         // NEW MENU
-        [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
+        // [
+        //     'text'        => 'pages',
+        //     'url'         => 'admin/pages',
+        //     'icon'        => 'far fa-fw fa-file',
+        //     'label'       => 4,
+        //     'label_color' => 'success',
+        // ],
 
         ['header' => 'Menu'],
         [
@@ -244,6 +239,41 @@ return [
             'url' => 'admin\books',
             'icon' => 'fas fa-fw fa-book',
             'can' => 'isAdmin',
+        ],
+        [
+            'text' => 'Product Manage',
+            'url' => 'admin\products',
+            'icon' => 'fas fa-fw fa-box',
+            'can' => 'isAdmin',
+        ],
+        [
+            'text' => 'Product Category',
+            'url' => 'admin\categories',
+            'icon' => 'fas fa-fw fa-puzzle-piece',
+            'can' => 'isAdmin',
+        ],
+        [
+            'text' => 'Product Merk',
+            'url' => 'admin\merk',
+            'icon' => 'fas fa-fw fa-shopping-bag',
+            'can' => 'isAdmin',
+        ],
+        [
+            'text'    => 'Document',
+            'icon'    => 'fas fa-fw fa-print',
+            'can' => 'isAdmin',
+            'submenu' => [
+                [
+                    'text' => 'PDF Report',
+                    'url'  => 'admin/print_products',
+                    'icon' => 'fas fa-fw fa-file-pdf',
+                ],
+                [
+                    'text' => 'Excel Report',
+                    'url'  => 'admin/products/export',
+                    'icon' => 'fas fa-fw fa-file-excel',
+                ],
+            ],
         ],
         
         ['header' => 'account_settings'],

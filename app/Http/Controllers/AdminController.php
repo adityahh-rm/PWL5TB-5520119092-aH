@@ -11,7 +11,10 @@ use PDF;
 
 use App\Exports\BooksExport;
 use App\Exports\BooksImport;
+use App\Imports\BooksImport as ImportsBooksImport;
 use Maatwebsite\Excel\Facades\Excel;
+
+use App\Models\Product;
 
 class AdminController extends Controller
 {
@@ -148,7 +151,7 @@ class AdminController extends Controller
     //Import Buku
     public function import(Request $req)
     {
-        Excel::import(new BooksImport, $req->file('file'));
+        Excel::import(new ImportsBooksImport, $req->file('file'));
 
         $notification = array(
             'message' => 'Import Data Berhasil Dilakukan',
@@ -157,4 +160,108 @@ class AdminController extends Controller
 
         return redirect()->route('admin.books')->with($notification);
     }
+
+/** =================================================================== **/
+    //PRODUCTs
+    public function products()
+    {
+        $user = Auth::user();
+        $products = Product::all();
+            return view('product', compact('user', 'products'));
+    }
+
+    public function submit_product(Request $req)
+    {
+        $product = new Product; //objek dari Book
+
+        //Field menjadi function -- data diambil dari inputan
+        $product->name = $req->get('name');
+        $product->qty = $req->get('stock');
+        $product->categories_id = $req->get('category');
+
+        if($req->hasFile('photo')) //Apakah punya cover??
+        {
+            $extension = $req->file('photo')->extension(); //Menyimpan ekstensi dari file cover
+
+            $filename = 'product_imag'.time().'.'.$extension; //Nama filenya
+
+            $req->file('photo')->storeAs( 
+                //Menyimpan file kedalam direktori
+                'public/product_img', $filename
+            ); //storage/app/public/cover_buku
+
+            $product->photo = $filename; //menyimpan nama file pada kolom cover
+        }
+
+        $product->save(); //menyimpan semua value
+
+        $notification = array(
+            'message' => 'Data Buku Berhasil Ditambahkan',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.products')->with($notification); //Hanya sekali proses saja
+    }
+    // Function untuk mengambil ID pada setiap x yang ada
+    public function detDataProduct($id)
+    {
+        $product = Product::find($id); //Berdasarkan primary key
+        //Data dari model Book
+        return response()->json($product);
+    }
+
+    // function untuk update-BUKU
+    public function update_product(Request $req)
+    {
+        $product = Product::find($req->get('id')); //Menyesuaikan dengan id yang dikirim
+
+        $product->name = $req->get('name');
+        // $product->penulis = $req->get('penulis');
+        // $product->tahun = $req->get('tahun');
+        // $product->penerbit = $req->get('penerbit');
+
+        if($req->hasFile('photo')){
+            $extension = $req->file('photo')->extension();
+
+            $filename = 'product_img_'.time().'.'.$extension;
+
+            $req->file('photo')->storeAs(
+                'public/product_img', $filename
+            );
+
+            Storage::delete('public/product_img/'.$req->get('old_photo')); //Menghapus cover sebelumnya
+
+            $product->photo = $filename;
+        }
+
+        $product->save();
+
+        $notification = array (
+            'message' => 'X Data Has been Change',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.products')->with($notification);
+    }
+
+    // function untuk menghapus Data
+    public function delete_product(Request $req)
+    {
+        $product = Product::find($req->get('id'));
+
+        Storage::delete('public/product_img'.$req->get('old_photo'));
+
+        $product->delete();
+
+        $notification = array(
+            'message' => 'Deleting Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.products')->with($notification);
+    }
+
+
 }
+
+

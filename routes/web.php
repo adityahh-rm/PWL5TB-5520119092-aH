@@ -46,3 +46,10 @@ Route::get('admin/print_books', [App\Http\Controllers\AdminController::class, 'p
 Route::get('admin/books/export', [App\Http\Controllers\AdminController::class, 'export'])->name('admin.book.export')->middleware('is_admin');
 //Import 
 Route::post('admin/books/import', [App\Http\Controllers\AdminController::class, 'import'])->name('admin.book.import')->middleware('is_admin');
+
+//PRODUCTS
+Route::get('admin/products', [App\Http\Controllers\AdminController::class, 'products'])->name('admin.products')->middleware('is_admin');
+Route::post('admin/products', [App\Http\Controllers\AdminController::class, 'submit_product'])->name('admin.product.submit')->middleware('is_admin');
+Route::patch('admin/products/update', [App\Http\Controllers\AdminController::class, 'update_product'])->name('admin.product.update')->middleware('is_admin');
+Route::get('admin/ajaxadmin/dataProduct/{id}', [App\Http\Controllers\AdminController::class, 'getDataProduct']);
+Route::delete('admin/products/delete', [App\Http\Controllers\AdminController::class, 'delete_product'])->name('admin.product.delete')->middleware('is_admin');

@@ -253,8 +253,8 @@ return [
             'can' => 'isAdmin',
         ],
         [
-            'text' => 'Product Merk',
-            'url' => 'admin\merk',
+            'text' => 'Product Brand',
+            'url' => 'admin\brands',
             'icon' => 'fas fa-fw fa-shopping-bag',
             'can' => 'isAdmin',
         ],

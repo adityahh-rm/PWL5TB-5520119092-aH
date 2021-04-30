@@ -48,8 +48,28 @@ Route::get('admin/books/export', [App\Http\Controllers\AdminController::class, '
 Route::post('admin/books/import', [App\Http\Controllers\AdminController::class, 'import'])->name('admin.book.import')->middleware('is_admin');
 
 //PRODUCTS
-Route::get('admin/products', [App\Http\Controllers\AdminController::class, 'products'])->name('admin.products')->middleware('is_admin');
-Route::post('admin/products', [App\Http\Controllers\AdminController::class, 'submit_product'])->name('admin.product.submit')->middleware('is_admin');
-Route::patch('admin/products/update', [App\Http\Controllers\AdminController::class, 'update_product'])->name('admin.product.update')->middleware('is_admin');
+Route::middleware('is_admin')->prefix('admin')->group(function(){
+    Route::get('products', [App\Http\Controllers\AdminController::class, 'products'])->name('admin.products');
+    Route::post('products', [App\Http\Controllers\AdminController::class, 'submit_product'])->name('admin.product.submit');
+    Route::patch('products/update', [App\Http\Controllers\AdminController::class, 'update_product'])->name('admin.product.update');
+    Route::delete('products/delete', [App\Http\Controllers\AdminController::class, 'delete_product'])->name('admin.product.delete');
+});
 Route::get('admin/ajaxadmin/dataProduct/{id}', [App\Http\Controllers\AdminController::class, 'getDataProduct']);
-Route::delete('admin/products/delete', [App\Http\Controllers\AdminController::class, 'delete_product'])->name('admin.product.delete')->middleware('is_admin');
+
+//CATEGORY
+Route::middleware('is_admin')->prefix('admin')->group(function(){
+    Route::get('categories', [App\Http\Controllers\AdminController::class, 'categories'])->name('admin.categories');
+    Route::post('categories', [App\Http\Controllers\AdminController::class, 'submit_category'])->name('admin.category.submit');
+    Route::patch('categories/update', [App\Http\Controllers\AdminController::class, 'update_category'])->name('admin.category.update');
+    Route::delete('categories/delete', [App\Http\Controllers\AdminController::class, 'delete_category'])->name('admin.category.delete');
+});
+Route::get('admin/ajaxadmin/dataCategory/{id}', [App\Http\Controllers\AdminController::class, 'getDataCategory']);
+
+//BRANDS
+Route::middleware('is_admin')->prefix('admin')->group(function(){
+    Route::get('brands', [App\Http\Controllers\AdminController::class, 'brands'])->name('admin.brands');
+    Route::post('brands', [App\Http\Controllers\AdminController::class, 'submit_brand'])->name('admin.brand.submit');
+    Route::patch('brands/update', [App\Http\Controllers\AdminController::class, 'update_brand'])->name('admin.brand.update');
+    Route::delete('brands/delete', [App\Http\Controllers\AdminController::class, 'delete_brand'])->name('admin.brand.delete');
+});
+Route::get('admin/ajaxadmin/dataBrand/{id}', [App\Http\Controllers\AdminController::class, 'getDataBrand']);

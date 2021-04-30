@@ -20,13 +20,12 @@
                     <table id="table-data" class="table table-borderer">
                         <thead>
                             <tr>
-                                <th>N0</th>
+                                <th>No</th>
                                 <th>Name</th>
-                                <th>Quantity</th>
                                 <th>Category</th>
                                 <th>Merk</th>
+                                <th>Quantity</th>
                                 <th>Price</th>
-                                <th>Stock</th>
                                 <th>Photo</th>
                                 <th>Action</th>
                             </tr>
@@ -37,27 +36,25 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->qty }}</td>
                                     <td>{{ $product->categories_id }}</td>
                                     <td>{{ $product->brands_id }}</td>
+                                    <td>{{ $product->qty }}</td>
+                                    <td></td>
+
                                     <td>
-                                        @if($book->photo !== null)
+                                        @if($product->photo !== null)
                                             <img src="{{ asset('storage/product_img/'.$product->photo) }}" width="100px"/>
                                         @else
                                             [ Image not available ]
                                         @endif
                                     </td> 
-
                                     <!-- Button - Modifikasi Data -->
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" id="btn-edit-product" class="btn btn-success" 
-                                                data-toggle="modal" data-target="#editProductModal" data-id="{{ $product->id }}">
+                                            <button type="button" id="btn-edit-product" class="btn btn-success" data-toggle="modal" data-target="#editProductModal" data-id="{{ $product->id }}">
                                                 Edit
                                             </button>
-                                            <!-- Deleting button for modal -->
-                                            <button type="button" id="btn-delete-product" class="btn btn-danger" data-toggle="modal" 
-                                                data-target="#deleteProductModal" data-id="{{ $product->id }}" 
+                                            <button type="button" id="btn-delete-product" class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal" data-id="{{ $product->id }}" data-name="{{ $product->id }}" 
                                                 data-cover="{{ $product->photo }}">
                                                 Delete
                                             </button>
@@ -97,6 +94,7 @@
                             <label for="qty">Quantity</label>
                             <input type="text" class="form-control" name="qty" id="qty" required/>
                         </div> 
+                        <!-- dropdown-->
                         <div class="form-group">
                             <label for="photo">Photo</label>
                             <input type="file" class="form-control" name="photo" id="photo"/>

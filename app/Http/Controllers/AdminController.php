@@ -15,6 +15,8 @@ use App\Imports\BooksImport as ImportsBooksImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Brand;
 
 class AdminController extends Controller
 {
@@ -179,28 +181,27 @@ class AdminController extends Controller
         $product->qty = $req->get('stock');
         $product->categories_id = $req->get('category');
 
-        if($req->hasFile('photo')) //Apakah punya cover??
+        if($req->hasFile('photo'))
         {
-            $extension = $req->file('photo')->extension(); //Menyimpan ekstensi dari file cover
+            $extension = $req->file('photo')->extension();
 
-            $filename = 'product_imag'.time().'.'.$extension; //Nama filenya
+            $filename = 'product_imag'.time().'.'.$extension;
 
             $req->file('photo')->storeAs( 
-                //Menyimpan file kedalam direktori
                 'public/product_img', $filename
-            ); //storage/app/public/cover_buku
+            ); 
 
-            $product->photo = $filename; //menyimpan nama file pada kolom cover
+            $product->photo = $filename; 
         }
 
-        $product->save(); //menyimpan semua value
+        $product->save(); 
 
         $notification = array(
-            'message' => 'Data Buku Berhasil Ditambahkan',
+            'message' => 'Product Added Succesfully',
             'alert-type' => 'success'
         );
 
-        return redirect()->route('admin.products')->with($notification); //Hanya sekali proses saja
+        return redirect()->route('admin.products')->with($notification);
     }
     // Function untuk mengambil ID pada setiap x yang ada
     public function detDataProduct($id)
@@ -216,9 +217,9 @@ class AdminController extends Controller
         $product = Product::find($req->get('id')); //Menyesuaikan dengan id yang dikirim
 
         $product->name = $req->get('name');
-        // $product->penulis = $req->get('penulis');
-        // $product->tahun = $req->get('tahun');
-        // $product->penerbit = $req->get('penerbit');
+        $product->qty = $req->get('qty');
+        $product->categories_id = $req->get('categories_id');
+        $product->brands_id = $req->get('brands_id');
 
         if($req->hasFile('photo')){
             $extension = $req->file('photo')->extension();
@@ -229,7 +230,7 @@ class AdminController extends Controller
                 'public/product_img', $filename
             );
 
-            Storage::delete('public/product_img/'.$req->get('old_photo')); //Menghapus cover sebelumnya
+            Storage::delete('public/product_img/'.$req->get('old_photo'));
 
             $product->photo = $filename;
         }
@@ -237,7 +238,7 @@ class AdminController extends Controller
         $product->save();
 
         $notification = array (
-            'message' => 'X Data Has been Change',
+            'message' => 'Product Updated Succesfully',
             'alert-type' => 'success'
         );
 
@@ -259,9 +260,69 @@ class AdminController extends Controller
         );
 
         return redirect()->route('admin.products')->with($notification);
+    }    
+    
+    /** =================================================================== **/
+    //CATEGORY
+    public function categories()
+    {
+        $user = Auth::user();
+        $categories = Category::all();
+            return view('category', compact('user', 'categories'));
     }
 
+    public function submit_category(Request $req)
+    {
+        $category = new Category;
 
+        $category->name = $req->get('name');
+        $category->description = $req->get('description');
+
+        $category->save(); 
+        $notification = array(
+            'message' => 'Category Added Succesfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.categories')->with($notification);
+    }
+    
+    public function getDataCategory($id)
+    {
+        $category = Category::find($id); 
+
+        return response()->json($category);
+    }
+
+    /** =================================================================== **/
+    //BRAND
+    public function brands()
+    {
+        $user = Auth::user();
+        $brands = Brand::all();
+            return view('brand', compact('user', 'brands'));
+    }
+
+    public function submit_brand(Request $req)
+    {
+        $brand = new Brand;
+
+        $brand->name = $req->get('name');
+        $brand->description = $req->get('description');
+
+        $brand->save(); 
+        $notification = array(
+            'message' => 'Brand Added Succesfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.brands')->with($notification);
+    }
+    
+    public function getDataBrand($id)
+    {
+        $brand = Brand::find($id); 
+
+        return response()->json($brand);
+    }
 }
-
-

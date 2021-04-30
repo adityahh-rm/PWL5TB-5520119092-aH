@@ -259,6 +259,12 @@ return [
             'can' => 'isAdmin',
         ],
         [
+            'text' => 'Recycle Product',
+            'url' => 'admin\product_trashed',
+            'icon' => 'fas fa-fw fa-recycle',
+            'can' => 'isAdmin',
+        ],
+        [
             'text'    => 'Document',
             'icon'    => 'fas fa-fw fa-print',
             'can' => 'isAdmin',

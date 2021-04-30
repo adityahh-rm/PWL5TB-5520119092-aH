@@ -4,6 +4,8 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Category;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,8 +55,10 @@ Route::middleware('is_admin')->prefix('admin')->group(function(){
     Route::post('products', [App\Http\Controllers\AdminController::class, 'submit_product'])->name('admin.product.submit');
     Route::patch('products/update', [App\Http\Controllers\AdminController::class, 'update_product'])->name('admin.product.update');
     Route::delete('products/delete', [App\Http\Controllers\AdminController::class, 'delete_product'])->name('admin.product.delete');
+    Route::get('print_products', [App\Http\Controllers\AdminController::class, 'print_products'])->name('admin.print.products');
 });
 Route::get('admin/ajaxadmin/dataProduct/{id}', [App\Http\Controllers\AdminController::class, 'getDataProduct']);
+
 
 //CATEGORY
 Route::middleware('is_admin')->prefix('admin')->group(function(){

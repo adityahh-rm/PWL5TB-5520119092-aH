@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <button class="btn btn-primary float-left" data-toggle="modal" data-target="#addProductModal">
                         <i class="fa fa-plus"></i>
-                        Add Product
+                        Add Data Product
                     </button>
                     <table id="table-data" class="table table-borderer">
                         <thead>
@@ -25,7 +25,6 @@
                                 <th>Category</th>
                                 <th>Merk</th>
                                 <th>Quantity</th>
-                                <th>Price</th>
                                 <th>Photo</th>
                                 <th>Action</th>
                             </tr>
@@ -36,11 +35,9 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->categories_id }}</td>
-                                    <td>{{ $product->brands_id }}</td>
+                                    <td>{{ $product->category->name }}</td>
+                                    <td>{{ $product->brand->name }}</td>
                                     <td>{{ $product->qty }}</td>
-                                    <td></td>
-
                                     <td>
                                         @if($product->photo !== null)
                                             <img src="{{ asset('storage/product_img/'.$product->photo) }}" width="100px"/>
@@ -54,7 +51,7 @@
                                             <button type="button" id="btn-edit-product" class="btn btn-success" data-toggle="modal" data-target="#editProductModal" data-id="{{ $product->id }}">
                                                 Edit
                                             </button>
-                                            <button type="button" id="btn-delete-product" class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal" data-id="{{ $product->id }}" data-name="{{ $product->id }}" 
+                                            <button type="button" id="btn-delete-product" class="btn btn-danger" data-toggle="modal" data-target="#deleteProductModal" data-id="{{ $product->id }}" data-name="{{ $product->name }}" 
                                                 data-cover="{{ $product->photo }}">
                                                 Delete
                                             </button>
@@ -77,7 +74,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addProductModal">
-                    Add Data Product
+                    Add Product
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"> &times; </span>
@@ -91,10 +88,31 @@
                             <input type="text" class="form-control" name="name" id="name" required/>
                         </div>
                         <div class="form-group">
+                            <label for="categories_id">Category</label>
+                            <select name="categories_id" id="categories" class="form-control">
+                                <option selected disabled> -- Select One --</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">
+                                                   {{ $category->name }}
+                                    </option>
+                                @endforeach 
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="brands_id">Merk</label>
+                            <select name="brands_id" id="brands" class="form-control">
+                                <option selected disabled> -- Select One --</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}">
+                                                   {{ $brand->name }}
+                                    </option>
+                                @endforeach 
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="qty">Quantity</label>
                             <input type="text" class="form-control" name="qty" id="qty" required/>
                         </div> 
-                        <!-- dropdown-->
                         <div class="form-group">
                             <label for="photo">Photo</label>
                             <input type="file" class="form-control" name="photo" id="photo"/>
@@ -102,7 +120,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit"  value="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>     
         </div>
@@ -128,7 +146,6 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="edit-name">Product Name</label>
-                                    <!-- edit-.... ditulis untuk menghindari adanya duplikasi -->
                                     <input type="text" class="form-control" name="name" id="edit-name" required/>
                                 </div>
                                 <div class="form-group">
@@ -136,16 +153,26 @@
                                     <input type="text" class="form-control" name="qty" id="edit-qty" required/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="edit-price">Price</label>
-                                    <input type="text" class="form-control" name="price" id="edit-price" required/>
-                                </div>
-                                <div class="form-group">
                                     <label for="edit-category">Category</label>
-                                    <input type="year" class="form-control" name="category" id="edit-category" required/>
+                                    <select name="categories_id" id="categories" class="form-control">
+                                        <option selected disabled> -- Select One --</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">
+                                                        {{ $category->name }}
+                                            </option>
+                                        @endforeach 
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="edit-merk">Merk</label>
-                                    <input type="text" class="form-control" name="merk" id="edit-merk" required/>
+                                    <label for="edit-brand">Merk</label>
+                                    <select name="brands_id" id="brands" class="form-control">
+                                        <option selected disabled> -- Select One --</option>
+                                        @foreach ($brands as $brand)
+                                            <option value="{{ $brand->id }}">
+                                                        {{ $brand->name }}
+                                            </option>
+                                        @endforeach 
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -158,9 +185,8 @@
                         </div>
             </div>
             <div class="modal-footer">
-                <!-- hidden --]> memerlukan id untuk mengubah data-nya -->
                 <input type="hidden" name="id" id="edit-id"/>
-                <input type="hidden" name="photo" id="edit-old-photo"/> <!-- menghapus cover yang terdulu -->
+                <input type="hidden" name="old-description" id="edit-old-description"/> 
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-success">Update</button>
                 </form>
@@ -171,32 +197,27 @@
 
 <!-- delete -->
 <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog"> <!-- exampleModalLabel-->
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteProductModal">
-                    Deleting Data
+                    Deleting Product
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Are you Sure you want to Delete??
+                Are you Sure you want to Delete <strong><span id="caption"></span></strong>? 
                 <form method="post" action="{{ route('admin.product.delete') }}" enctype="multipart/form-data">
                     @csrf
                     @method('DELETE')
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="id" id="delete-id"/>
-                <input type="hidden" name="photo" id="delete-old-photo"/>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Close
-                </button>
-                <button type="submit" class="btn btn-danger">
-                    Delete
-                </button>
-
+                <input type="hidden" name="old_photo" id="delete-old-photo"/>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>
         </div>
@@ -220,15 +241,14 @@
                     success: function(res){
                         $('#edit-name').val(res.name);
                         $('#edit-qty').val(res.qty);
-                        $('#edit-price').val(res.price);
                         $('#edit-category').val(res.categories_id);
-                        $('#edit-merk').val(res.brands_id);
+                        $('#edit-brand').val(res.brands_id);
                         $('#edit-id').val(res.id);
                         $('#edit-old-photo').val(res.photo);
 
-                        if(res.cover !== null){
+                        if(res.photo !== null){
                             $('#image-area').append( //reset image cover
-                                "<img src='"+baseurl+"/storage/product_img/"+res.cover+"' width='200px'/>"
+                                "<img src='"+baseurl+"/storage/product_img/"+res.photo+"' width='200px'/>"
                             );
                         } else {
                             $('#image-area').append('[Image not available]');
@@ -236,15 +256,18 @@
                     },
                 });
             }); 
+        });
+    </script>
 
-             // JS DELETING PRODUCT
-            $(document).on('click', '#btn-delete-product', function(){
+    <script>
+        $(document).on('click', '#btn-delete-product', function(){
                 let id = $(this).data('id');
                 let photo = $(this).data('photo');
+                let name = $(this).data('name');
 
                 $('#delete-id').val(id);
                 $('#delete-old-photo').val(photo);
+                $('#caption').text(name);
             });
-        });
     </script>
 @stop

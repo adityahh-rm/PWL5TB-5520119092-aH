@@ -15,8 +15,6 @@ use App\Imports\BooksImport as ImportsBooksImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\Product;
-use App\Models\Category;
-use App\Models\Brand;
 
 class AdminController extends Controller
 {
@@ -28,10 +26,10 @@ class AdminController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('home', compact('user'));
+        $products = Product::all();
+        return view('home', compact('user','products'));
     }
 
-    // function untuk konten-BUKU
     public function books()
     {
         $user = Auth::user();
@@ -39,7 +37,6 @@ class AdminController extends Controller
         return view('book', compact('user', 'books'));
     }
 
-    //function untuk submit-BUKU
     public function submit_book(Request $req)
     {
         $book = new Book; //objek dari Book
@@ -74,7 +71,6 @@ class AdminController extends Controller
         return redirect()->route('admin.books')->with($notification); //Hanya sekali proses saja
     }
 
-    // Function untuk mengambil ID pada setiap x yang ada
     public function getDataBuku($id)
     {
         $buku = Book::find($id); //Berdasarkan primary key
@@ -82,7 +78,6 @@ class AdminController extends Controller
         return response()->json($buku);
     }
 
-    // function untuk update-BUKU
     public function update_book(Request $req)
     {
         $book = Book::find($req->get('id')); //Menyesuaikan dengan id yang dikirim
@@ -163,234 +158,4 @@ class AdminController extends Controller
         return redirect()->route('admin.books')->with($notification);
     }
 
-/** =================================================================== **/
-    //PRODUCTs
-    public function products()
-    {
-        $user = Auth::user();
-        $products = Product::all();
-        $categories = Category::all();
-        $brands = Brand::all();
-            return view('product', compact('user', 'products', 'categories', 'brands'));
-    }
-
-    public function submit_product(Request $req)
-    {
-        $product = new Product; 
-
-        $product->name = $req->get('name');
-        $product->categories_id = $req->get('categories_id');
-        $product->brands_id = $req->get('brands_id');
-        $product->qty = $req->get('qty');
-
-        if($req->hasFile('photo')){
-            $extension = $req->file('photo')->extension();
-
-            $filename = 'product_img_'.time().'.'.$extension;
-
-            $req->file('photo')->storeAs( 
-                'public/product_img', $filename
-            ); 
-
-            $product->photo = $filename; 
-        }
-        $product->save(); 
-
-        $notification = array(
-            'message' => 'Product Added Succesfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('admin.products')->with($notification);
-    }
-    // Function untuk mengambil ID pada setiap x yang ada
-    public function getDataProduct($id)
-    {
-        $product = Product::find($id); //Berdasarkan primary key
-        //Data dari model Book
-        return response()->json($product);
-    }
-
-    public function update_product(Request $req)
-    {
-        $product = Product::find($req->get('id')); //Menyesuaikan dengan id yang dikirim
-
-        $product->name = $req->get('name');
-        $product->qty = $req->get('qty');
-        $product->categories_id = $req->get('categories_id');
-        $product->brands_id = $req->get('brands_id');
-
-        if($req->hasFile('photo')){
-            $extension = $req->file('photo')->extension();
-
-            $filename = 'product_img_'.time().'.'.$extension;
-
-            $req->file('photo')->storeAs(
-                'public/product_img', $filename
-            );
-
-            Storage::delete('public/product_img/'.$req->get('old_photo'));
-
-            $product->photo = $filename;
-        }
-
-        $product->save();
-
-        $notification = array (
-            'message' => 'Product Updated Succesfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('admin.products')->with($notification);
-    }
-
-    public function delete_product(Request $req)
-    {
-        $product = Product::find($req->get('id'));
-
-        Storage::delete('public/product_img'.$req->get('old_photo'));
-
-        $product->delete();
-
-        $notification = array(
-            'message' => 'Deleting Successfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('admin.products')->with($notification);
-    }    
-
-    public function print_products()
-    {
-        $products = Product::all();
-
-        $pdf = PDF::loadview('print_products', ['products' => $products]);
-
-        return $pdf->download('data_products.pdf');
-    }
-    
-    /** =================================================================== **/
-    //CATEGORY
-    public function categories()
-    {
-        $user = Auth::user();
-        $categories = Category::all();
-            return view('category', compact('user', 'categories'));
-    }
-
-    public function submit_category(Request $req)
-    {
-        $category = new Category;
-
-        $category->name = $req->get('name');
-        $category->description = $req->get('description');
-
-        $category->save(); 
-        $notification = array(
-            'message' => 'Category Added Succesfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('admin.categories')->with($notification);
-    }
-    
-    public function getDataCategory($id)
-    {
-        $category = Category::find($id); 
-
-        return response()->json($category);
-    }
-
-    public function update_category(Request $req)
-    {
-        $category = Category::find($req->get('id')); //Menyesuaikan dengan id yang dikirim
-
-        $category->name = $req->get('name');
-        $category->description = $req->get('description');
-        $category->save();
-
-        $notification = array (
-            'message' => 'Category Updated Succesfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('admin.categories')->with($notification);
-    }
-
-    // function untuk menghapus Data
-    public function delete_category(Request $req)
-    {
-        $category = Category::find($req->get('id'));
-
-        $category->delete();
-
-        $notification = array(
-            'message' => 'Deleting Successfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('admin.categories')->with($notification);
-    }  
-
-    /** =================================================================== **/
-    //BRAND
-    public function brands()
-    {
-        $user = Auth::user();
-        $brands = Brand::all();
-            return view('brand', compact('user', 'brands'));
-    }
-
-    public function submit_brand(Request $req)
-    {
-        $brand = new Brand;
-
-        $brand->name = $req->get('name');
-        $brand->description = $req->get('description');
-
-        $brand->save(); 
-        $notification = array(
-            'message' => 'Brand Added Succesfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('admin.brands')->with($notification);
-    }
-    
-    public function getDataBrand($id)
-    {
-        $brand = Brand::find($id); 
-
-        return response()->json($brand);
-    }
-
-    public function update_brand(Request $req)
-    {
-        $brand = Brand::find($req->get('id'));
-
-        $brand->name = $req->get('name');
-        $brand->description = $req->get('description');
-        $brand->save();
-
-        $notification = array (
-            'message' => 'Brand Updated Succesfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('admin.brands')->with($notification);
-    }
-
-    public function delete_brand(Request $req)
-    {
-        $brand = Brand::find($req->get('id'));
-
-        $brand->delete();
-
-        $notification = array(
-            'message' => 'Deleting Successfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('admin.brands')->with($notification);
-    }  
 }

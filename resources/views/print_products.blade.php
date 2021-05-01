@@ -4,18 +4,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <h1 class="text-center">Data Product - Shooting Guns</h1>
-    <p class="text-center">Report Data</p>
+    <h1 class="text-center">Report Data</h1>
+    <h4 class="text-center">- Fireguns - </h4>
     <br/>
     <table id="table-data" class="table table-bordered">
         <thead>
             <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Merk</th>
-                <th>Quantity</th>
-                <th>Photo</th>
+                <th>NO</th>
+                <th>NAME</th>
+                <th>CATEGORY</th>
+                <th>MERK</th>
+                <th>QUANTITY</th>
+                <th>PHOTO</th>
             </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@
                     <td>{{ $product->qty }}</td>
                     <td>
                         @if($product->photo !== null)
-                            <img src="{{ asset('storage/product_img/'.$product->photo) }}" width="100px"/>
+                            <img src="{{ public_path('storage/product_img/'.$product->photo) }}" width="100px"/>
                         @else
                             [ Image not available ]
                         @endif

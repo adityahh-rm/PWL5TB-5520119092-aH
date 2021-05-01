@@ -28,7 +28,7 @@ class Product extends Model
     public static function getDataProducts()
     {
         $products = Product::all();
-        $products_filter = []; //Disimpan dalam bentuk Array
+        $products_filter = [];
         $no=1;
 
         for($i=0; $i<$products->count(); $i++){

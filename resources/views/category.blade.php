@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Category Managament')
+@section('title', 'Firearms Category Managament')
 
 @section('content_header')
     <h1>Category Managament</h1>
@@ -38,7 +38,7 @@
                                             <button type="button" id="btn-edit-category" class="btn btn-success" data-toggle="modal" data-target="#editCategoryModal" data-id="{{ $category->id }}">
                                                 Edit
                                             </button>
-                                            <button type="button" id="btn-delete-category" class="btn btn-danger" data-toggle="modal" data-target="#deleteCategoryModal" data-id="{{ $category->id }}" 
+                                            <button type="button" id="btn-delete-category" class="btn btn-danger" data-toggle="modal" data-target="#deleteCategoryModal" data-id="{{ $category->id }}"
                                                 data-name="{{ $category->name }}">
                                                 Delete
                                             </button>
@@ -88,45 +88,9 @@
     </div>
 </div>
 
-<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg"> <!-- exampleModalLabel -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editCategoryModal">Update Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{{ route('admin.category.update') }}" enctype="multipart/form-data">
-                    @csrf
-                    @method('PATCH') 
-                        <!-- form yg dikirimkan sesuai dengan route::patch -->
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="edit-name">Category Name</label>
-                                    <input type="text" class="form-control" name="name" id="edit-name" required/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="edit-description">Description</label>
-                                    <textarea type="text" class="form-control" name="description" id="edit-description" required></textarea>
-                                </div>
-                        </div>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="id" id="edit-id"/>
-                <input type="hidden" name="description" id="edit-description"/> 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success">Update</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
+<!-- BUG CUKK -->
 <div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteCategoryModal">
@@ -152,6 +116,43 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- exampleModalLabel -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModal">Update Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{ route('admin.category.update') }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH') 
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="edit-name">Category Name</label>
+                                    <input type="text" class="form-control" name="name" id="edit-name" required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-description">Description</label>
+                                    <textarea type="text" class="form-control" name="description" id="edit-description" required></textarea>
+                                </div>
+                        </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="id" id="edit-id"/>
+                <input type="hidden" name="description" id="edit-description"/> 
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @stop
 
 @section('js')

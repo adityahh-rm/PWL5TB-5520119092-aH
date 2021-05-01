@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Product Managament')
+@section('title', 'Firearms Product Managament')
 
 @section('content_header')
-    <h1>Product Managament</h1>
+    <h1> Firearms Product</h1>
 @stop
 
 @section('content')
@@ -13,10 +13,25 @@
             <div class="card">
                 <div class="card-header">{{ __('Admin ---- Product Managament') }}</div>
                 <div class="card-body">
-                    <button class="btn btn-primary float-left" data-toggle="modal" data-target="#addProductModal">
-                        <i class="fa fa-plus"></i>
-                        Add Data Product
-                    </button>
+                    <div class="btn-group" roles="group">
+                        <button class="btn btn-primary float-left" data-toggle="modal" data-target="#addProductModal">
+                            <i class="fa fa-print"></i>
+                            Add Product
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <a href="{{ route('admin.print.products') }}" target="_blank" class="btn btn-secondary">
+                            <i class="fa fa-file-pdf"></i>
+                                PDF
+                        </a>
+                    </div>
+                    <div class="btn-group">
+                        <a href="{{ route('admin.product.export') }}" class="btn btn-info" target="_blank">
+                            <i class="fa fa-file-excel"></i>
+                            Excel
+                        </a>
+                    </div> 
+                    <hr/>
                     <table id="table-data" class="table table-borderer">
                         <thead>
                             <tr>

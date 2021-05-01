@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Brand Managament')
+@section('title', 'Firearms Brand Managament')
 
 @section('content_header')
     <h1>Brand Managament</h1>
@@ -90,6 +90,33 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteBrandModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog"> <!-- exampleModalLabel-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteBrandModal">Delete Brand</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you Sure you want to Delete <strong><span id="caption"></span></strong>?
+                <form method="post" action="{{ route('admin.brand.delete') }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('DELETE')
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="id" id="delete-id"/>
+                <input type="hidden" name="description" id="old-description"/>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close </button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="editBrandModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg"> <!-- exampleModalLabel -->
         <div class="modal-content">
@@ -121,33 +148,6 @@
                 <input type="hidden" name="description" id="edit-description"/> 
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-success">Update</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="deleteBrandModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog"> <!-- exampleModalLabel-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteBrandModal">Delete Brand</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you Sure you want to Delete <strong><span id="caption"></span></strong>?
-                <form method="post" action="{{ route('admin.brand.delete') }}" enctype="multipart/form-data">
-                    @csrf
-                    @method('DELETE')
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="id" id="delete-id"/>
-                <input type="hidden" name="description" id="old-description"/>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close </button>
-                <button type="submit" class="btn btn-danger">Delete</button>
-
                 </form>
             </div>
         </div>

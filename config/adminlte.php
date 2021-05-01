@@ -224,36 +224,27 @@ return [
     */
 
     'menu' => [
-        // NEW MENU
-        // [
-        //     'text'        => 'pages',
-        //     'url'         => 'admin/pages',
-        //     'icon'        => 'far fa-fw fa-file',
-        //     'label'       => 4,
-        //     'label_color' => 'success',
-        // ],
-
         ['header' => 'Menu'],
+        // [
+        //     'text' => 'Buku',
+        //     'url' => 'admin\books',
+        //     'icon' => 'fas fa-fw fa-book',
+        //     'can' => 'isAdmin',
+        // ],
         [
-            'text' => 'Buku',
-            'url' => 'admin\books',
-            'icon' => 'fas fa-fw fa-book',
-            'can' => 'isAdmin',
-        ],
-        [
-            'text' => 'Product Manage',
+            'text' => 'Product',
             'url' => 'admin\products',
             'icon' => 'fas fa-fw fa-box',
             'can' => 'isAdmin',
         ],
         [
-            'text' => 'Product Category',
+            'text' => 'Category',
             'url' => 'admin\categories',
             'icon' => 'fas fa-fw fa-puzzle-piece',
             'can' => 'isAdmin',
         ],
         [
-            'text' => 'Product Brand',
+            'text' => 'Brand',
             'url' => 'admin\brands',
             'icon' => 'fas fa-fw fa-shopping-bag',
             'can' => 'isAdmin',
@@ -270,14 +261,9 @@ return [
             'can' => 'isAdmin',
             'submenu' => [
                 [
-                    'text' => 'PDF Report',
-                    'url'  => 'admin/print_products',
-                    'icon' => 'fas fa-fw fa-file-pdf',
-                ],
-                [
-                    'text' => 'Excel Report',
-                    'url'  => 'admin/products/export',
-                    'icon' => 'fas fa-fw fa-file-excel',
+                    'text' => 'Income Report',
+                    'url'  => 'admin/income_reports',
+                    'icon' => 'fas fa-fw fa-file',
                 ],
             ],
         ],
@@ -293,44 +279,44 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
-        ],
+        // [
+        //     'text'    => 'multilevel',
+        //     'icon'    => 'fas fa-fw fa-share',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'level_one',
+        //             'url'  => '#',
+        //         ],
+        //         [
+        //             'text'    => 'level_one',
+        //             'url'     => '#',
+        //             'submenu' => [
+        //                 [
+        //                     'text' => 'level_two',
+        //                     'url'  => '#',
+        //                 ],
+        //                 [
+        //                     'text'    => 'level_two',
+        //                     'url'     => '#',
+        //                     'submenu' => [
+        //                         [
+        //                             'text' => 'level_three',
+        //                             'url'  => '#',
+        //                         ],
+        //                         [
+        //                             'text' => 'level_three',
+        //                             'url'  => '#',
+        //                         ],
+        //                     ],
+        //                 ],
+        //             ],
+        //         ],
+        //         [
+        //             'text' => 'level_one',
+        //             'url'  => '#',
+        //         ],
+        //     ],
+        // ],
         ['header' => 'labels'],
         [
             'text'       => 'important',
